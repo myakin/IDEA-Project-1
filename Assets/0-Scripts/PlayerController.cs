@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
     public float moveSpeed = 0.001f;
     public float jumpStrength = 100f;
     public float velocityForceMagnitude = 1;
+    public int numOfKeys;
 
     private Animator animator;
     private bool isJumping;
