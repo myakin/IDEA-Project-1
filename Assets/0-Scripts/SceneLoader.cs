@@ -12,7 +12,10 @@ public class SceneLoader : MonoBehaviour {
     }
 
     
-    public void LoadScene(string sceneName) {
+    public void LoadScene(string sceneName, bool isInitialLoad = false) {
+        if (!isInitialLoad) {
+            DataManager.instance.ClearCollectiblesData();
+        }
         SceneManager.LoadScene(sceneName);
     }  
 
@@ -22,6 +25,10 @@ public class SceneLoader : MonoBehaviour {
 
         // int currentSceneBuildIndex = SceneManager.GetActiveScene().buildIndex;
         // SceneManager.LoadScene(currentSceneBuildIndex);
+    }
+
+    public string GetSceneName() {
+        return SceneManager.GetActiveScene().name;
     }
 
 }

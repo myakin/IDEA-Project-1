@@ -7,7 +7,7 @@ public class CollectibleManager : MonoBehaviour {
     public int id;
 
     public void Start() {
-        if (PlayerPrefs.HasKey("TakenKeys"+id)) {
+        if (DataManager.instance.collectedKeys.Contains(id)) {
             Destroy(gameObject);
         }
     }
@@ -16,8 +16,11 @@ public class CollectibleManager : MonoBehaviour {
         if (other.tag=="Player") {
             // playerin key sayisini artir
             // other.GetComponent<PlayerController>().numOfKeys++;
-            UIManager.instance.IncreasePlayerScore();
-            PlayerPrefs.SetInt("TakenKeys"+id,0);
+            // UIManager.instance.IncreasePlayerScore();
+            // PlayerPrefs.SetInt("TakenKeys"+id,0); // TakenKeys0 = 0
+
+            DataManager.instance.IncreasePlayerScore();
+            DataManager.instance.AddToCollectedKeys(id);
             
             // bu key'i yok et
             // gameObject.SetActive(false);

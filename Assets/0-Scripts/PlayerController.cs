@@ -6,7 +6,6 @@ public class PlayerController : MonoBehaviour {
     public float moveSpeed = 0.001f;
     public float jumpStrength = 100f;
     public float velocityForceMagnitude = 1;
-    public int numOfKeys;
 
     private Animator animator;
     private bool isJumping;
@@ -65,13 +64,7 @@ public class PlayerController : MonoBehaviour {
         
         // ground checking
         if (isCheckingGround) {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 0.2f, 1<<0);
-            if (hit.collider!=null && hit.collider.tag == "Platform") {
-                // Debug.Log(hit.collider.gameObject.name);
-                // set animator to idle
-                animator.SetBool("isGrounded", true);
-                transform.SetParent(hit.transform);
-            }
+            RaycastGround();
 
             // if (animator.GetCurrentAnimatorStateInfo(0).IsName("CharacterIdleAnimation")) {
             //     ResetJump();
@@ -95,4 +88,16 @@ public class PlayerController : MonoBehaviour {
     public void StartCheckingGround() {
         isCheckingGround = true;
     } 
+
+
+
+    private void RaycastGround() {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 0.2f, 1<<0);
+        if (hit.collider!=null && hit.collider.tag == "Platform") {
+            // Debug.Log(hit.collider.gameObject.name);
+            // set animator to idle
+            animator.SetBool("isGrounded", true);
+            transform.SetParent(hit.transform);
+        }
+    }
 }

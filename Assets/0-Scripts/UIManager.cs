@@ -13,17 +13,53 @@ public class UIManager : MonoBehaviour {
 
     // Variables & references
     public Text scoreText;
-    public int numOfKeys;
+    // public int numOfKeys;
+    public Button newGameButton, loadGameButton, saveGameButton;
+    public GameObject mainMenuPanel;
 
     private void Start() {
-        numOfKeys = PlayerPrefs.GetInt("PlayerScore");
-        scoreText.text = numOfKeys.ToString();
+        // numOfKeys = PlayerPrefs.GetInt("PlayerScore");
+        // scoreText.text = numOfKeys.ToString();
+
+        newGameButton.onClick.AddListener(NewGame);
+        loadGameButton.onClick.AddListener(StartLoadingSavedGame);
+        saveGameButton.onClick.AddListener(StartSavingGame);
+        UpdatePlayerScore();
     }
 
-    public void IncreasePlayerScore() {
-        numOfKeys++;
-        scoreText.text = numOfKeys.ToString();
-        PlayerPrefs.SetInt("PlayerScore",numOfKeys);
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            ToggleMainMenu();
+        }
+    }
+
+    public void UpdatePlayerScore() {
+        // numOfKeys++;
+        scoreText.text = DataManager.instance.playerScore.ToString();
+        // PlayerPrefs.SetInt("PlayerScore",numOfKeys);
+        // DataManager.instance.playerScore = numOfKeys;
+    }
+
+    public void NewGame() {
+        DataManager.instance.ResetData();
+        SceneLoader.instance.LoadScene("Scene1");
+    }
+
+    private void ToggleMainMenu() {
+        if (mainMenuPanel.activeSelf) {
+            mainMenuPanel.SetActive(false);
+        } else {
+            mainMenuPanel.SetActive(true);
+        }
+
+        // mainMenuPanel.SetActive( mainMenuPanel.activeSelf ? false : true );
+    }
+
+    private void StartSavingGame() {
+        DataManager.instance.SaveGame();
+    }
+    private void StartLoadingSavedGame() {
+        DataManager.instance.LoadGame();
     }
 
 
