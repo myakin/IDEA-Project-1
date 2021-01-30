@@ -11,10 +11,14 @@ public class SceneLoader : MonoBehaviour {
         SceneLoader.instance = this;
     }
 
-    
-    public void LoadScene(string sceneName, bool isInitialLoad = false) {
+
+    public void LoadScene(string sceneName, bool isInitialLoad = false, bool shouldLoadSceneData = false) {
         if (!isInitialLoad) {
             DataManager.instance.ClearCollectiblesData();
+        }
+        if (shouldLoadSceneData)
+        {
+            DataManager.instance.LoadSceneData(sceneName);
         }
         SceneManager.LoadScene(sceneName);
     }  

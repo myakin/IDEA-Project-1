@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour {
 
     public void NewGame() {
         DataManager.instance.ResetData();
-        SceneLoader.instance.LoadScene("Scene1");
+        SceneLoader.instance.LoadScene("Scene1", true);
     }
 
     private void ToggleMainMenu() {

@@ -13,9 +13,16 @@ public class PlayerController : MonoBehaviour {
     private float jumpTimer;
     private Vector3 oldPosition;
     private float moveMultiplier = 1;
+    private Vector2 defaultColliderOffset, defaultColliderSize, jumpingColliderOffset, jumpingColliderSize;
 
     private void Start() {
         animator = GetComponent<Animator>();
+        defaultColliderOffset = GetComponent<CapsuleCollider2D>().offset;
+        defaultColliderSize = GetComponent<CapsuleCollider2D>().size;
+
+        jumpingColliderOffset = new Vector2(defaultColliderOffset.x, 1.74f);
+        jumpingColliderSize = new Vector2(defaultColliderSize.x, 1.49f);
+
     }
 
     private void Update() {
@@ -55,6 +62,9 @@ public class PlayerController : MonoBehaviour {
                 Vector3 velocity = transform.position - oldPosition;
                 GetComponent<Rigidbody2D>().AddForce(velocity * velocityForceMagnitude);
 
+                GetComponent<CapsuleCollider2D>().offset = jumpingColliderOffset;
+                GetComponent<CapsuleCollider2D>().size = jumpingColliderSize;
+
             }
             jumpTimer+=Time.deltaTime;
             if (jumpTimer<0.5f) {
@@ -87,17 +97,31 @@ public class PlayerController : MonoBehaviour {
     // called from CharacterJumpStartAnimation animation
     public void StartCheckingGround() {
         isCheckingGround = true;
-    } 
+    }
 
 
 
-    private void RaycastGround() {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 0.2f, 1<<0);
-        if (hit.collider!=null && hit.collider.tag == "Platform") {
-            // Debug.Log(hit.collider.gameObject.name);
-            // set animator to idle
+    private void RaycastGround()
+    {
+        //RaycastHit2D hit = Physics2D.Raycast(transform.position, -transform.up, 0.2f, 1<<0);
+        //if (hit.collider!=null && hit.collider.tag == "Platform") {
+        //    // Debug.Log(hit.collider.gameObject.name);
+        //    // set animator to idle
+        //    animator.SetBool("isGrounded", true);
+        //    transform.SetParent(hit.transform);
+        //}
+
+        RaycastHit2D hit = Physics2D.BoxCast(transform.position, new Vector2(0.517f, 0.01f), 0, -transform.up, 0.2f, 1 << 0);
+        if (hit.collider != null && hit.collider.tag == "Platform")
+        {
             animator.SetBool("isGrounded", true);
             transform.SetParent(hit.transform);
         }
+    }
+
+    // called from animator
+    public void ResetCollider() {
+        GetComponent<CapsuleCollider2D>().offset = defaultColliderOffset;
+        GetComponent<CapsuleCollider2D>().size = defaultColliderSize;
     }
 }
