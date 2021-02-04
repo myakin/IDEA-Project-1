@@ -37,6 +37,124 @@ public class DataManager : MonoBehaviour {
         collectedKeys.Clear();
     }
 
+
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.F1)) { // save enemy movement
+
+            /*
+            // SAVE SINGLE ENEMY
+            EnemyMovement enemyMovement = GameObject.FindObjectOfType<EnemyMovement>();
+            
+            // EnemyData enemySaveData = new EnemyData();
+            // enemySaveData.range = enemyMovement.moveRange;
+            // enemySaveData.multiplier = enemyMovement.moveMultiplier;
+            // enemySaveData.speed = enemyMovement.moveSpeed;
+            // enemySaveData.sPos = enemyMovement.startPos;
+            // enemySaveData.dir = enemyMovement.moveDir;
+            // enemySaveData.ePos = enemyMovement.endPos;
+
+            EnemyData enemySaveData = new EnemyData(enemyMovement.transform.position, enemyMovement.moveRange, enemyMovement.moveMultiplier, enemyMovement.moveSpeed, enemyMovement.startPos, enemyMovement.moveDir, enemyMovement.endPos);
+            string enemyDataPath = Application.persistentDataPath + "/enemyData.enmdt";
+            SaveData(enemySaveData, enemyDataPath);
+            */
+
+
+            // // SAVE MULTIPLE ENEMIES
+            // EnemyMovement[] enemyMovements = GameObject.FindObjectsOfType<EnemyMovement>();
+            // for (int i=0; i<enemyMovements.Length; i++) {
+            //     EnemyData enemySaveData = new EnemyData(enemyMovements[i].transform.position, enemyMovements[i].moveRange, enemyMovements[i].moveMultiplier, enemyMovements[i].moveSpeed, enemyMovements[i].startPos, enemyMovements[i].moveDir, enemyMovements[i].endPos);
+            //     string enemyDataPath = Application.persistentDataPath + "/enemyData"+ i +".enmdt"; // enemyData0.enmdt  enemyData1.enmdt  enemyData2.enmdt
+            //     SaveData(enemySaveData, enemyDataPath);
+            // }
+
+            // // SAVE MULTIPLE ENEMIES - 2
+            // GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            // for (int i=0; i<enemies.Length; i++) {
+            //     EnemyMovement enemyMovement = enemies[i].GetComponent<EnemyMovement>();
+            //     EnemyData enemySaveData = new EnemyData(enemyMovement.transform.position, enemyMovement.moveRange, enemyMovement.moveMultiplier, enemyMovement.moveSpeed, enemyMovement.startPos, enemyMovement.moveDir, enemyMovement.endPos);
+            //     string enemyDataPath = Application.persistentDataPath + "/enemyData"+ i +".enmdt"; // enemyData0.enmdt  enemyData1.enmdt  enemyData2.enmdt
+            //     SaveData(enemySaveData, enemyDataPath);
+            // }
+
+            // UPGRADE: SAVE ALL MOVING OBJECTS
+            ObjectMovement[] objectsMovements = GameObject.FindObjectsOfType<ObjectMovement>();
+            for (int i=0; i<objectsMovements.Length; i++) {
+                MovingObjectSaveData saveData = new MovingObjectSaveData(objectsMovements[i].transform.position, objectsMovements[i].moveRange, objectsMovements[i].moveMultiplier, objectsMovements[i].moveSpeed, objectsMovements[i].startPos, objectsMovements[i].moveDir, objectsMovements[i].endPos);
+                string path = Application.persistentDataPath + "/movingObjectData"+ i +".mvngobjdt";
+                SaveData(saveData, path);
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.F2)) { // load enemy movement
+            /*
+            // LOAD SINGLE ENEMY
+            EnemyData loadedEnemyData = new EnemyData();
+            string enemyDataPath = Application.persistentDataPath + "/enemyData.enmdt";
+            loadedEnemyData = LoadData(loadedEnemyData, enemyDataPath);
+
+            EnemyMovement enemyMovement = GameObject.FindObjectOfType<EnemyMovement>();
+            enemyMovement.SetEnemyData(loadedEnemyData.currentPosition, loadedEnemyData.range, loadedEnemyData.multiplier, loadedEnemyData.speed, loadedEnemyData.sPos, loadedEnemyData.dir, loadedEnemyData.ePos);
+            */
+
+            // // LOAD MULTIPLE ENEMIES
+            // EnemyMovement[] enemyMovements = GameObject.FindObjectsOfType<EnemyMovement>();
+
+            // for (int i=0; i<enemyMovements.Length; i++) {
+            //     EnemyData loadedEnemyData = new EnemyData();
+            //     string enemyDataPath = Application.persistentDataPath + "/enemyData"+ i +".enmdt"; // enemyData0.enmdt  enemyData1.enmdt  enemyData2.enmdt
+            //     loadedEnemyData = LoadData(loadedEnemyData, enemyDataPath);
+
+            //     enemyMovements[i].SetEnemyData(loadedEnemyData.currentPosition, loadedEnemyData.range, loadedEnemyData.multiplier, loadedEnemyData.speed, loadedEnemyData.sPos, loadedEnemyData.dir, loadedEnemyData.ePos);
+            // }
+
+            // // LOAD MULTIPLE ENEMIES - 2
+            // GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            // for (int i=0; i<enemies.Length; i++) {
+            //     EnemyData loadedEnemyData = new EnemyData();
+            //     string enemyDataPath = Application.persistentDataPath + "/enemyData"+ i +".enmdt"; // enemyData0.enmdt  enemyData1.enmdt  enemyData2.enmdt
+            //     loadedEnemyData = LoadData(loadedEnemyData, enemyDataPath);
+
+            //     EnemyMovement targetEnemyMovementScript = enemies[i].GetComponent<EnemyMovement>();
+            //     targetEnemyMovementScript.SetEnemyData(loadedEnemyData.currentPosition, loadedEnemyData.range, loadedEnemyData.multiplier, loadedEnemyData.speed, loadedEnemyData.sPos, loadedEnemyData.dir, loadedEnemyData.ePos);
+            // }
+
+            // UPGRADE: LOAD ALL MOVING OBJECTS
+            ObjectMovement[] objectMovements = GameObject.FindObjectsOfType<ObjectMovement>();
+
+            for (int i=0; i<objectMovements.Length; i++) {
+                MovingObjectSaveData loadedData = new MovingObjectSaveData();
+                string path = Application.persistentDataPath + "/movingObjectData"+ i +".mvngobjdt";
+                loadedData = LoadData(loadedData, path);
+
+                objectMovements[i].SetEnemyData(loadedData.currentPosition, loadedData.range, loadedData.multiplier, loadedData.speed, loadedData.sPos, loadedData.dir, loadedData.ePos);
+            }
+            
+        }
+    }
+
+
+    public void SaveData<T>(T aSaveDataClass, string aPath) {
+        FileStream stream = new FileStream(aPath, FileMode.Create);
+        BinaryFormatter bf = new BinaryFormatter();
+        string jsonString = JsonUtility.ToJson(aSaveDataClass);
+        bf.Serialize(stream, jsonString);
+        stream.Close();
+    }
+    public T LoadData<T>(T aDataClassToBeAssigned, string aPath) {
+        if (File.Exists(aPath)) {
+            FileStream stream = new FileStream(aPath, FileMode.Open);
+            BinaryFormatter bf = new BinaryFormatter();
+            string jsonString = (string)bf.Deserialize(stream);
+            aDataClassToBeAssigned = JsonUtility.FromJson<T>(jsonString);
+            stream.Close();
+        }
+        return aDataClassToBeAssigned;
+    }
+    
+
+
+
+
     public void SaveGame() {
         // currentSceneName
         // playerScore
@@ -226,7 +344,6 @@ public class DataManager : MonoBehaviour {
         return ...
     }
     */
-
 
 
 }
