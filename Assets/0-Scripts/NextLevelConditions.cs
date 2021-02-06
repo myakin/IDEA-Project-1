@@ -11,7 +11,7 @@ public class NextLevelConditions : MonoBehaviour {
 
 
             // sartlar uygunsa yeni sahneyi yukle
-            SceneLoader.instance.LoadScene("Scene2", false, true);
+            SceneLoader.instance.LoadNextLevel("Scene2");
 
         }
     }

@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour {
 
 
     // Variables & references
-    public Text scoreText;
+    public Text scoreText, lifeText;
     // public int numOfKeys;
     public Button newGameButton, loadGameButton, saveGameButton;
     public GameObject mainMenuPanel;
@@ -41,8 +41,7 @@ public class UIManager : MonoBehaviour {
     }
 
     public void NewGame() {
-        DataManager.instance.ResetData();
-        SceneLoader.instance.LoadScene("Scene1", true);
+        DataManager.instance.NewGame();
     }
 
     private void ToggleMainMenu() {
@@ -60,6 +59,10 @@ public class UIManager : MonoBehaviour {
     }
     private void StartLoadingSavedGame() {
         DataManager.instance.LoadGame();
+    }
+
+    public void SetLife() {
+        lifeText.text = DataManager.instance.playerLife.ToString();;
     }
 
 
